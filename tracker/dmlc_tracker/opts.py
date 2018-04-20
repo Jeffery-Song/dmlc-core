@@ -162,6 +162,11 @@ def get_opts(args=None):
     parser.add_argument('--kube-server-template', default=None, type=str,
                         help=('Manifest template for servers. Used only in Kubernetes mode.' +
                               'Can be used to override defaults.'))
+
+    parser.add_argument('--brokers', type=str,
+                        help = 'similar to " kafka\'s --bootstrap-server \
+                         node1:9092,node2:9092 or node1,node2" ')#gbxu
+
     (args, unknown) = parser.parse_known_args(args)
     args.command += unknown
 

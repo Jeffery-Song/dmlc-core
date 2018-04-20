@@ -56,6 +56,7 @@ def submit(args):
         """
         customized submit script
         """
+        pass_envs['BROKERS'] = args.brokers # gbxu
         # thread func to run the job
         def run(prog):
             subprocess.check_call(prog, shell = True)
