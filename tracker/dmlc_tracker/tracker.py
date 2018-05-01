@@ -407,12 +407,13 @@ def get_host_ip(hostIP=None):
     return hostIP
 
 
-def submit(nworker, nserver, fun_submit, hostIP='auto', pscmd=None):
+def submit(nworker, nserver, brokers,fun_submit, hostIP='auto', pscmd=None):
     if nserver == 0:
         pscmd = None
 
     envs = {'DMLC_NUM_WORKER' : nworker,
-            'DMLC_NUM_SERVER' : nserver}
+            'DMLC_NUM_SERVER' : nserver,
+            'BROKERS':brokers}
     hostIP = get_host_ip(hostIP)
 
     if nserver == 0:
