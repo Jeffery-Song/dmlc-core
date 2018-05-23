@@ -56,7 +56,7 @@ def submit(args):
         """
         customized submit script
         """
-        #pass_envs['BROKERS'] = args.brokers # gbxu
+        pass_envs['BROKERS'] = args.brokers # gbxu
         # thread func to run the job
         def run(prog):
             subprocess.check_call(prog, shell = True)
@@ -84,4 +84,5 @@ def submit(args):
     tracker.submit(args.num_workers, args.num_servers,args.brokers,
                    fun_submit=ssh_submit,
                    pscmd=(' '.join(args.command)),
-                   hostIP=args.host_ip)
+                   hostIP=args.host_ip,
+                   env={'BROKERS' : args.brokers})
