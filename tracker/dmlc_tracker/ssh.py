@@ -56,7 +56,16 @@ def submit(args):
         """
         customized submit script
         """
+        # print(args)
         pass_envs['BROKERS'] = args.brokers # gbxu
+        pass_envs['ADD_EPOCH'] = args.add_epoch
+        pass_envs['MXNET_CMD'] = '"' + ' '.join(args.command) + '"'
+        # switched_hosts = hosts[(nworker + nserver) % len(hosts):].append(hosts[:(nworker + nserver) % len(hosts)])
+        # hosts_ip = 
+        pass_envs['MXNET_WORKERS'] = ','.join([host[0] for host in hosts])
+        # print('MXNET_CMD: ' + pass_envs['MXNET_CMD'])
+        # print('ADD_EPOCH: ' + args.add_epoch)
+        # print('BROKERS: ' + args.brokers)
         # thread func to run the job
         def run(prog):
             subprocess.check_call(prog, shell = True)
@@ -69,12 +78,14 @@ def submit(args):
             for h in hosts:
                 sync_dir(local_dir, h, working_dir)
 
+        pass_envs['MXNET_DIR'] = working_dir
         # launch jobs
         for i in range(nworker + nserver):
             pass_envs['DMLC_ROLE'] = 'server' if i < nserver else 'worker'
             (node, port) = hosts[i % len(hosts)]
             prog = get_env(pass_envs) + ' cd ' + working_dir + '; ' + (' '.join(args.command))
             prog = 'ssh -o StrictHostKeyChecking=no ' + node + ' -p ' + port + ' \'' + prog + '\''
+            # print(prog)
             thread = Thread(target = run, args=(prog,))
             thread.setDaemon(True)
             thread.start()

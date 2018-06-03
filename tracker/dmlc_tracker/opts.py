@@ -166,6 +166,8 @@ def get_opts(args=None):
     parser.add_argument('--brokers', type=str,
                         help = 'similar to " kafka\'s --bootstrap-server \
                          node1:9092,node2:9092 or node1,node2" ')#gbxu
+    parser.add_argument('--add-epoch', type=str,
+                        help = 'when to add workers, 20,40,60')
 
     (args, unknown) = parser.parse_known_args(args)
     args.command += unknown
